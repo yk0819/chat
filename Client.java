@@ -84,50 +84,34 @@ public class Client {
 			System.out.println(serverPort+"에 접속되었습니다");				
 			
 			
-			// 
-			
-			
-			
-//			AcceptThreadChat ATC = new AcceptThreadChat(serverPort);
-//			ATC.run();
-			
 			// 닉네임 설정
 			userNameScanner = new Scanner(System.in);
-			userNameAnswer = new Scanner(System.in);
-			
 			System.out.print("닉네임을 입력해주세요: ");
 			userName = userNameScanner.nextLine();
-			System.out.println(userName+"으로 설정하시겠습니까?(Y/N)");
-			answer = userNameAnswer.next(); // String으로 변환
-			
-//			while(true) {
-//				if(answer.equalsIgnoreCase("y")) {
-//					userName = userNameScanner.nextLine();
-//					System.out.println("닉네임을"+userName+"(으)로 지정하였습니다");
-//					break;
-//				}while(answer.equalsIgnoreCase("n")) {
-//					System.out.print("닉네임을 입력해주세요: ");
-//					userName = userNameScanner.nextLine();
-//					System.out.println(userName+"으로 설정하시겠습니까?(Y/N)");
-//				}
-//			}
+			System.out.println("닉네임을" + userName + "(으)로 지정하였습니다");
+				
+			System.out.println(userName+"님이 입장하셨습니다");
+				
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+				
+			while(true) {	
+			// 메세지 보내기
+				System.out.println(">");
+				String outMessage = text.nextLine();
+				out.write(outMessage+"\n");
+				out.flush();
+					
+				String inMessage = in.readLine();
+				System.out.println(userName+": "+inMessage);
+			}
 
-
-			if(answer.equalsIgnoreCase("y")) {// 이름 확정
-				System.out.println("닉네임을"+userName+"(으)로 지정하였습니다");
-				}else if(answer.equalsIgnoreCase("n")) {
-					System.out.print("닉네임을 입력해주세요: ");
-					userName = userNameScanner.nextLine();
-					System.out.println(userName+"으로 설정하시겠습니까?(Y/N)");
-				}
+		}
 			
-			// input output buffered flush
-			// inMessage outMessage
-			
-		}catch(Exception e) {
-				System.out.println("오류가 발생하였습니다");
-				System.out.println(e);
-		}if(!socket.isClosed()) {
+	}catch(Exception e) {
+		System.out.println("오류가 발생하였습니다");
+		System.out.println(e);
+	}if(!socket.isClosed()) {
 			try {
 				socket.close();
 			} catch (IOException e) {
